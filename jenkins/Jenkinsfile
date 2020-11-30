@@ -1,8 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'dotnet/dotnet-31-rhel7'
-        }
+        label 'dotnetcore31'
     }
     stages {
        stage('build') {
