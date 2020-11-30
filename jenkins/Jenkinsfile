@@ -9,7 +9,7 @@ pipeline {
              updateGitlabCommitStatus name: 'build', state: 'success'
           }
        }
-       stage(test) {
+       stage('test') {
            steps {
                echo 'Notify GitLab'
                updateGitlabCommitStatus name: 'test', state: 'pending'
