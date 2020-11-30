@@ -6,6 +6,7 @@ pipeline {
              echo 'Notify GitLab'
              updateGitlabCommitStatus name: 'build', state: 'pending'
              echo 'build step goes here'
+             sh(script: "dotnet build", returnStdout: true)
              updateGitlabCommitStatus name: 'build', state: 'success'
           }
        }
