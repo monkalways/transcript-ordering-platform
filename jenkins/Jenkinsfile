@@ -25,7 +25,9 @@ pipeline {
            }
        }
        stage("Publish NUnit Test Report") {
+          steps {
             nunit testResultsPattern: '**/*test-results.xml'
+          }
        }
     }
  }
