@@ -19,9 +19,16 @@ pipeline {
                echo 'Notify GitLab'
             //    updateGitlabCommitStatus name: 'test', state: 'pending'
                echo 'test step goes here'
-               sh(script: "dotnet test TranscriptAPI.Tests/TranscriptAPI.Tests.csproj -c Release --results-directory ./test-results", returnStdout: true)
+               sh(script: 'dotnet test TranscriptAPI.Tests/TranscriptAPI.Tests.csproj -c Release --results-directory ./test-results --collect "Code Coverage" --logger "unit-test.trx"'
+, returnStdout: true)
             //    updateGitlabCommitStatus name: 'test', state: 'success'
            }
        }
     }
+
+    post {
+    always {
+      step ([$class: 'MSTestPublisher', testResultsFile:"**/test-results/*.trx", failOnError: true, keepLongStdio: true])
+    }
+  }
  }
