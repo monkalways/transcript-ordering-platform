@@ -4,8 +4,11 @@ pipeline {
     }
     stages {
         stage('prepration') {
-            sh(script: "git config http.sslVerify false")
-            sh(script: "git config --global http.sslVerify false")
+            steps {
+                echo 'disable ssl verify'
+                sh(script: "git config http.sslVerify false")
+                sh(script: "git config --global http.sslVerify false")
+            }
         }
        stage('build') {
           steps {
