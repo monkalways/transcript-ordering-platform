@@ -5,20 +5,20 @@ pipeline {
     stages {
        stage('build') {
           steps {
-             echo 'Notify GitLab'
-             updateGitlabCommitStatus name: 'build', state: 'pending'
+            //  echo 'Notify GitLab'
+            //  updateGitlabCommitStatus name: 'build', state: 'pending'
              echo 'build step goes here'
+             sh(script: "dotnet --version", returnStdout: true)
              sh(script: "dotnet build", returnStdout: true)
-             updateGitlabCommitStatus name: 'build', state: 'success'
+            //  updateGitlabCommitStatus name: 'build', state: 'success'
           }
        }
        stage('test') {
            steps {
                echo 'Notify GitLab'
-               updateGitlabCommitStatus name: 'test', state: 'pending'
+            //    updateGitlabCommitStatus name: 'test', state: 'pending'
                echo 'test step goes here'
-               updateGitlabCommitStatus name: 'test', state: 'success'
-
+            //    updateGitlabCommitStatus name: 'test', state: 'success'
            }
        }
     }
