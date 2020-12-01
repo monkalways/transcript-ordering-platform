@@ -19,7 +19,7 @@ pipeline {
                echo 'Notify GitLab'
             //    updateGitlabCommitStatus name: 'test', state: 'pending'
                echo 'test step goes here'
-               sh(script: "dotnet test TranscriptAPI.Tests/TranscriptAPI.Tests.csproj -c Release -r ./test-results", returnStdout: true)
+               sh(script: "dotnet test TranscriptAPI.Tests/TranscriptAPI.Tests.csproj -c Release --results-directory ./test-results", returnStdout: true)
             //    updateGitlabCommitStatus name: 'test', state: 'success'
            }
        }
