@@ -3,6 +3,10 @@ pipeline {
         label 'dotnetcore31'
     }
     stages {
+        stage('prepration') {
+            sh(script: "git config http.sslVerify false")
+            sh(script: "git config --global http.sslVerify false")
+        }
        stage('build') {
           steps {
             //  echo 'Notify GitLab'
