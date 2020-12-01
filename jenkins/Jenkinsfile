@@ -19,15 +19,18 @@ pipeline {
                echo 'Notify GitLab'
             //    updateGitlabCommitStatus name: 'test', state: 'pending'
                echo 'test step goes here'
-               sh(script: 'dotnet test TranscriptAPI.Tests/TranscriptAPI.Tests.csproj -c Release --results-directory ./test-results --collect "Code Coverage" --logger "trx;LogFileName=test-results.testresults"'
+               sh(script: 'dotnet test Transcript.API.Tests/Transcript.API.Tests.csproj -c Release --results-directory ./test-results --collect "Code Coverage" --logger "trx;LogFileName=test-results.xml"'
 , returnStdout: true)
             //    updateGitlabCommitStatus name: 'test', state: 'success'
            }
        }
-       stage("Publish NUnit Test Report") {
-          steps {
-            nunit testResultsPattern: '**/*.testresults'
-          }
-       }
+    }
+    post {
+        always{
+            xunit (
+                thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                tools: [ xUnitDotNet(pattern: '**/*.xml') ])
+            )
+        }
     }
  }
