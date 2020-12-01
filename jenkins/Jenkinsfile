@@ -1,15 +1,5 @@
 pipeline {
-    agent {
-        label 'dotnetcore31'
-    }
     stages {
-        stage('prepration') {
-            steps {
-                echo 'disable ssl verify'
-                sh(script: "git config http.sslVerify false")
-                sh(script: "git config --global http.sslVerify false")
-            }
-        }
        stage('build') {
           steps {
             //  echo 'Notify GitLab'
