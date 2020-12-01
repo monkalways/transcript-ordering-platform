@@ -10,7 +10,7 @@ pipeline {
             //  echo 'Notify GitLab'
             //  updateGitlabCommitStatus name: 'build', state: 'pending'
              echo 'build step goes here'
-             sh(script: "dotnet build TranscriptAPI/TranscriptAPI.csproj -c Release -o /app", returnStdout: true)
+             sh(script: "dotnet build Transcript.API/Transcript.API.csproj -c Release -o /app", returnStdout: true)
             //  updateGitlabCommitStatus name: 'build', state: 'success'
           }
        }
@@ -19,7 +19,7 @@ pipeline {
                echo 'Notify GitLab'
             //    updateGitlabCommitStatus name: 'test', state: 'pending'
                echo 'test step goes here'
-               sh(script: "dotnet test TranscriptAPI.Tests/TranscriptAPI.Tests.csproj -c Release -r /results", returnStdout: true)
+               sh(script: "dotnet test TranscriptAPI.Tests/Transcript.API.Tests.csproj -c Release -r /results", returnStdout: true)
             //    updateGitlabCommitStatus name: 'test', state: 'success'
            }
        }
