@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'dotnet-31-jenkins-slave-rhel7'
+        label 'dotnetcore31'
     }
     stages {
        stage('build') {
