@@ -13,6 +13,6 @@ SOURCE_IMAGE_KIND=ImageStreamTag
 SOURCE_IMAGE_NAME=dotnet
 SOURCE_IMAGE_TAG=3.1
 OUTPUT_IMAGE_TAG=latest
-JENKINSFILE_PATH=jenkins/Jenkinsfile
+JENKINSFILE_PATH=Jenkinsfile
 GITLAB_WEBHOOK=gitlab-transcript-sandbox
 OPENSHIFT_PROJECT=wei-sandbox
