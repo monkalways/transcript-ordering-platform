@@ -1,6 +1,8 @@
 pipeline {
     agent {
-       label: "dotnetcore31"
+       node {
+         label: "dotnetcore31"
+       }
     }
 
    //  environment {
