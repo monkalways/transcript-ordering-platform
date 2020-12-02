@@ -13,7 +13,7 @@ pipeline {
             script {
                openshift.withCluster() {
                   openshift.withProject() {
-                        echo "Using project: ${openshift.project()}"
+                     echo "Using project: ${openshift.project()}"
                   }
                }
             }
@@ -44,8 +44,9 @@ pipeline {
                openshift.withCluster() {
                   openshift.withProject() {
                      // Find the build configuration associated to the application ...
-                     def buildconfigs = openshift.selector('bc', "${item}")
-                     echo "Found ${buildconfigs.count()} buildconfigs: ${buildconfigs.names()}"
+                     // def buildconfigs = openshift.selector('bc', "${item}")
+                     // echo "Found ${buildconfigs.count()} buildconfigs: ${buildconfigs.names()}"
+                     echo "Using project: ${openshift.project()}"
 
                      // // Kick off any builds in parallel ...
                      // def builds = buildconfigs.startBuild()
