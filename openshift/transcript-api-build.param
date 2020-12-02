@@ -1,0 +1,18 @@
+#=========================================================
+# OpenShift template parameters for:
+# Component: transcript-sample-api
+# Template File: openshift/templates/transcript-api/transcript-api-build.yaml
+#=========================================================
+NAME=transcript-ordering-platform
+APP_NAME=transcript-ordering-platform
+GIT_REPO_URL=https://github.com/monkalways/transcript-ordering-platform.git
+GIT_SECRET=gitlab-deploy-token-digitaljustice
+GIT_REF=master
+SOURCE_CONTEXT_DIR=/
+SOURCE_IMAGE_KIND=ImageStreamTag
+SOURCE_IMAGE_NAME=dotnet
+SOURCE_IMAGE_TAG=3.1
+OUTPUT_IMAGE_TAG=latest
+JENKINSFILE_PATH=transcript-api/Jenkinsfile
+GITLAB_WEBHOOK=gitlab-transcript-sandbox
+OPENSHIFT_PROJECT=jds-transcript-tools

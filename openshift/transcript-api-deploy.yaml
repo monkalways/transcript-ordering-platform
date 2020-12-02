@@ -1,0 +1,169 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: "${NAME}-deployment-template"
+  creationTimestamp:
+objects:
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: "${NAME}"
+      labels:
+        name: ${NAME}
+        app: ${APP_GROUP}
+        app-group: ${APP_GROUP}
+      annotations:
+        description: Defines how to deploy ${NAME}
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - "${NAME}"
+            from:
+              kind: ImageStreamTag
+              namespace: "${IMAGE_NAMESPACE}"
+              name: "${SOURCE_IMAGE_NAME}:${TAG_NAME}"
+      replicas: 1
+      selector:
+        name: "${NAME}"
+      template:
+        metadata:
+          name: "${NAME}"
+          labels:
+            name: ${NAME}
+            app: ${APP_GROUP}
+            app-group: ${APP_GROUP}
+        spec:
+          containers:
+            - name: "${NAME}"
+              image: ""
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              # env:
+              #   - name: MSSQL_SERVER
+              #     value: mssql-server
+              #   - name: MSSQL_DATABASE
+              #     value: JSG_transcript_DEVL
+              #   - name: MSSQL_USER
+              #     value: sa
+              #   - name: MSSQL_PASSWORD
+              #     valueFrom:
+              #       secretKeyRef:
+              #         key: MSSQL_SA_PASSWORD
+              #         name: mssql-secret
+              #   - name: JWT_SECRET
+              #     valueFrom:
+              #       secretKeyRef:
+              #         key: JWT_SECRET
+              #         name: jwt-secret
+              #   - name: LDAP_API
+              #     value: 'https://ldap-api-jds-sandbox.os99.gov.ab.ca/api/v1/auth'
+              #   - name: AlbertaNotify_URL
+              #     value: 'https://rest-api.notify.alberta.ca'
+              #   - name: AlbertaNotify_API_Key
+              #     value: 'live-b3fcb0cf-6427-45ce-9928-94694483152f-bba7fc0b-63eb-4c9d-9c51-1ee8603b6ca8'
+              #   - name: Bambora_Checkout_URL
+              #     value: 'https://web.na.bambora.com/scripts/payment/payment.asp'
+              #   - name: Bambora_API_URL
+              #     value: 'https://api.na.bambora.com/v1'
+              #   - name: Bambora_MerchantId
+              #     value: '300208944'
+              #   - name: Bambora_HashKey
+              #     value: 'D3872A72-E3B8-4234-9CEC-CAE69070'
+              #   - name: Bambora_Passcode
+              #     value: '4104DC655F8a4c23a9e436450DeCef3a'
+              #   - name: App_URL
+              #     value: 'https://transcript-app-jds-transcript-test.os99.gov.ab.ca'
+              #   - name: NOTICE_EXPIRY_MINUTES
+              #     value: '4200'
+              #   - name: NOTICE_REMINDER_MINUTES
+              #     value: '1440'
+              resources: {}
+
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: "${NAME}"
+      labels:
+        name: ${NAME}
+        app: ${APP_GROUP}
+        app-group: ${APP_GROUP}
+      annotations:
+        description: Exposes and load balances the application pods.
+    spec:
+      ports:
+        - name: 8080-tcp
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        name: "${NAME}"
+      type: ClusterIP
+      sessionAffinity: None
+
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      labels:
+        name: ${NAME}
+        app: ${APP_GROUP}
+        app-group: ${APP_GROUP}
+      name: "${NAME}"
+    spec:
+      host: "${APPLICATION_DOMAIN}"
+      port:
+        targetPort: 8080-tcp
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge
+      to:
+        kind: Service
+        name: "${NAME}"
+        weight: 100
+
+  - kind: HorizontalPodAutoscaler
+    apiVersion: autoscaling/v1
+    metadata:
+      name: "${NAME}"
+      labels:
+        name: ${NAME}
+        app: ${APP_GROUP}
+        app-group: ${APP_GROUP}
+    spec:
+      scaleTargetRef:
+        kind: DeploymentConfig
+        name: "${NAME}"
+      minReplicas: 1
+      maxReplicas: 2
+
+parameters:
+  - name: NAME
+    displayName: Name
+    description: The name assigned to all of the resources defined in this template.
+    required: true
+  - name: APP_GROUP
+    displayName: App Group
+    description: Used to group components together.
+    required: true
+  - name: SOURCE_IMAGE_NAME
+    displayName: Source Image Name
+    description: The name of the image to use for this resource.
+    required: true
+  - name: IMAGE_NAMESPACE
+    displayName: Image Namespace
+    description: The namespace of the OpenShift project containing the imagestream for the application.
+    required: true
+  - name: TAG_NAME
+    displayName: Environment TAG name
+    description: The TAG name for this environment, e.g., dev, test, prod
+    required: true
+  - name: APPLICATION_DOMAIN
+    description: The exposed hostname that will route to the service, e.g., myappname.os99.gov.ab.ca, if left blank a value will be defaulted.
+    displayName: Application Domain
