@@ -8,4 +8,4 @@ APP_GROUP=transcript-ordering-platform
 SOURCE_IMAGE_NAME=transcript-ordering-platform
 IMAGE_NAMESPACE=wei-sandbox
 TAG_NAME=latest
-APPLICATION_DOMAIN=ranscript-ordering-platform-wei-sandbox.os99.gov.ab.ca
+APPLICATION_DOMAIN=transcript-ordering-platform-wei-sandbox.os99.gov.ab.ca
