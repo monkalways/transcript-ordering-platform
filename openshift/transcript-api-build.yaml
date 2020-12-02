@@ -47,33 +47,33 @@ objects:
           kind: ImageStreamTag
           name: "${NAME}:${OUTPUT_IMAGE_TAG}"
 
-  # - kind: BuildConfig
-  #   apiVersion: v1
-  #   metadata:
-  #     name: ${NAME}-pipeline
-  #     namespace: ${OPENSHIFT_PROJECT}
-  #   spec:
-  #     nodeSelector: null
-  #     output: {}
-  #     postCommit: {}
-  #     resources: {}
-  #     runPolicy: Serial
-  #     source:
-  #       contextDir: jenkins
-  #       git:
-  #         uri: "${GIT_REPO_URL}"
-  #       sourceSecret:
-  #         name: ${GIT_SECRET}
-  #       type: Git
-  #     strategy:
-  #       jenkinsPipelineStrategy:
-  #         jenkinsfilePath: ${JENKINSFILE_PATH}
-  #       type: JenkinsPipeline
-  #     triggers:
-  #       - gitlab:
-  #           secretReference:
-  #             name: ${GITLAB_WEBHOOK}
-  #         type: GitLab
+  - kind: BuildConfig
+    apiVersion: v1
+    metadata:
+      name: ${NAME}-pipeline
+      namespace: ${OPENSHIFT_PROJECT}
+    spec:
+      nodeSelector: null
+      output: {}
+      postCommit: {}
+      resources: {}
+      runPolicy: Serial
+      source:
+        contextDir: jenkins
+        git:
+          uri: "${GIT_REPO_URL}"
+        # sourceSecret:
+        #   name: ${GIT_SECRET}
+        type: Git
+      strategy:
+        jenkinsPipelineStrategy:
+          jenkinsfilePath: ${JENKINSFILE_PATH}
+        type: JenkinsPipeline
+      # triggers:
+      #   - gitlab:
+      #       secretReference:
+      #         name: ${GITLAB_WEBHOOK}
+      #     type: GitLab
 
 parameters:
   - name: NAME
