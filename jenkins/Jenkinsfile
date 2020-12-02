@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-       label: 'dotnetcore31'
-    }
+    agent any
    //  environment {
    //      HOME = '/tmp'
    //  }
