@@ -99,9 +99,9 @@ objects:
         description: Exposes and load balances the application pods.
     spec:
       ports:
-        - name: 8080-tcp
+        - name: http
           protocol: TCP
-          port: 8080
+          port: 80
           targetPort: 8080
       selector:
         name: "${NAME}"
@@ -119,7 +119,7 @@ objects:
     spec:
       host: "${APPLICATION_DOMAIN}"
       port:
-        targetPort: 8080-tcp
+        targetPort: http
       tls:
         insecureEdgeTerminationPolicy: Redirect
         termination: edge
