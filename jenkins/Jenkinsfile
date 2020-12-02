@@ -1,8 +1,11 @@
 pipeline {
-    agent any
-    environment {
-        HOME = '/tmp'
+    agent {
+       label: "dotnetcore31"
     }
+
+   //  environment {
+   //      HOME = '/tmp'
+   //  }
 
     stages {
        stage('build') {
@@ -16,7 +19,7 @@ pipeline {
        }
        stage('test') {
            steps {
-               echo 'Notify GitLab'
+               // echo 'Notify GitLab'
             //    updateGitlabCommitStatus name: 'test', state: 'pending'
                echo 'test step goes here'
                sh(script: 'dotnet test Transcript.API.Tests/Transcript.API.Tests.csproj -c Release --results-directory ./test-results --collect "Code Coverage" --logger "trx;LogFileName=test-results.xml"'
@@ -25,12 +28,12 @@ pipeline {
            }
        }
     }
-    post {
-        always {
-            xunit (
-                thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-                tools: [ xUnitDotNet(pattern: '**/test-results.xml') ]
-            )
-        }
-    }
+   //  post {
+   //      always {
+   //          xunit (
+   //              thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+   //              tools: [ xUnitDotNet(pattern: '**/test-results.xml') ]
+   //          )
+   //      }
+   //  }
  }
