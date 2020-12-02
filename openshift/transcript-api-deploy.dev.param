@@ -3,9 +3,9 @@
 # Component: .
 # Template File: ../openshift/templates/transcript-api/transcript-api-deploy.yaml
 #=========================================================
-NAME=transcript-sample-api
-APP_GROUP=transcript-sample
-SOURCE_IMAGE_NAME=transcript-sample-api
-IMAGE_NAMESPACE=jds-transcript-tools
-TAG_NAME=dev
-APPLICATION_DOMAIN=transcript-sample-api-jds-transcript-dev.os99.gov.ab.ca
+NAME=transcript-ordering-platform
+APP_GROUP=transcript-ordering-platform
+SOURCE_IMAGE_NAME=transcript-ordering-platform
+IMAGE_NAMESPACE=wei-sandbox
+TAG_NAME=latest
+APPLICATION_DOMAIN=ranscript-ordering-platform-wei-sandbox.os99.gov.ab.ca
