@@ -1,10 +1,7 @@
 pipeline {
     agent {
-       node {
-         label: "dotnetcore31"
-       }
+       label: 'dotnetcore31'
     }
-
    //  environment {
    //      HOME = '/tmp'
    //  }
